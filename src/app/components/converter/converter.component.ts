@@ -13,6 +13,8 @@ export class ConverterComponent implements OnInit {
   convert: FormGroup;
   arrayData: string []= [];//Datos iniciales
   auxData: number[] = [];//Datos con las potencias
+  auxDataDivision: number[] = [];//datos de convercion divisiones sucesivas 
+  // auxDataDivision: number[] = [];
 
   constructor(private fb: FormBuilder,
     private toastr: ToastrService,) {
@@ -24,7 +26,7 @@ export class ConverterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.validateNumber()
+    // this.validateNumber()
   }
 
   //divide el numero en el arreglo y valida el número ingresado
@@ -65,10 +67,20 @@ export class ConverterComponent implements OnInit {
     return ""
   }
 
+  findLetterValue(num: number){
+    for (let data in Values){
+      let aux = Number(Values[data]);
+      if( aux == num){
+        return data
+      }
+    }
+    return ""
+  }
+
   //primer paso del algoritmo (base m a decimal)
    async convertToDecimal(){
     let count: number = this.arrayData.length - 1;
-    let sum: number = 0;
+    let sum: number = 0; // no hace nada o que hace?
     this.arrayData.forEach(element => {
       let data = (this.findValueLetter(element) == "" ?
         Number(element) : Number(this.findValueLetter(element)));
@@ -76,17 +88,36 @@ export class ConverterComponent implements OnInit {
       console.log(count)
       count--;
     })
-    console.log(this.auxData)
-    this.sumDatas()
-    return sum
+    console.log(this.auxData, "datos del arreglo")
+    this.sumDatas();
+  //  await this.convertDecimalToBaseN(this.sumDatas());
+  //    this.auxDataDivision.forEach(async element => {
+  //      await console.log(element," dato del arreglo ");
+  //    });
   }
 
   //retorna el valor en decimal
-  sumDatas(){
+   sumDatas(){
     let total = 0;
-    this.auxData.forEach(element => {
-      total += element;
+    this.auxData.forEach(async element => {
+      total += await element;
     })
     console.log(total)
+    this.convertDecimalToBaseN(total);
+    console.log(this.auxDataDivision)
+    return total;
+  }
+
+  convertDecimalToBaseN(decimal: number){
+    console.log("entre");
+    if (decimal > this.convert.value.baseConverted) {
+      let remainder = decimal%this.convert.value.baseConverted;
+      this.auxDataDivision.push(remainder);
+      this.convertDecimalToBaseN(Math.trunc(decimal/this.convert.value.baseConverted));
+    }else{
+      console.log("sali");
+      this.auxDataDivision.push(decimal);
+    }
+
   }
 }
