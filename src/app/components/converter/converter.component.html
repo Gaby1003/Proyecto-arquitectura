@@ -5,20 +5,39 @@
                   <div class="card-body" style="vertical-align: middle;">
                       <h2 class="text-center">Convertir</h2>
                           <form [formGroup]="convert" (ngSubmit)="validateNumber()">
-                          <div class="form-group" >
-                              <input type="number" placeholder="Base original" class="form-control" formControlName="originalBase">
+                          <div class="form-group" class="row mt-3 mx-auto" >
+                            <label class="col-4 mt-2" >Base original:</label>
+                            <input type="number" placeholder="Base original" class="col-8 form-control" formControlName="originalBase">
                           </div>
-                          <div class="form-group">
-                              <input type="number" placeholder="Base destino" class="form-control" formControlName="baseConverted">
+                          <div class="form-group" class="row mt-3 mx-auto" >
+                              <label class="col-4 mt-2">Base destino:</label>
+                              <input type="number" placeholder="Base destino" class="col-8 form-control" formControlName="baseConverted">
                           </div>
-                          <div class="form-group">
-                            <input type="text" placeholder="número a convertir" class="form-control" formControlName="numberToConvert">
-                        </div>
+                          <div class="form-group" class="row mt-3 mx-auto">
+                            <label class="col-4 mt-2" >Número:</label>
+                            <input type="text" placeholder="número a convertir" class="col-8 form-control" formControlName="numberToConvert">
+                          </div>
                           <button type="submit" class="btn btn-dark float-right">Convertir</button>
                       </form>
                   </div>
               </div>
           </div>
       </div>
+
+      <div class="row" style="vertical-align: middle;">
+            <div class="col-md-6 mx-auto mt-5" *ngIf="result !== '' ">
+                <div class="card" style="background-color:#b7e0ff;">
+                      <div class="card-body" style="vertical-align: middle;">
+                        <div class="card mx-auto" style="background-color:#EFEBE9">
+                          <label style="background-color:#EFEBE9; margin-left: 4%; margin-top: 2%;">
+                            El resultado de la conversión es: {{result}}</label>
+                        </div>
+                     </div>
+                </div>
+            </div>
+      </div>
+
   </div>
+
+
 
